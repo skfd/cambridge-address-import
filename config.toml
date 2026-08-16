@@ -1,0 +1,99 @@
+[city]
+slug = "cambridge"
+name = "Cambridge"
+# "Planning Neighbourhoods": 38 polygons, all names unique (ALLENDALE, BLAIR,
+# CITY CORE, ...), point-tested 2026-08-15 at 99.93% of snapshot-26
+# addresses. The sibling CommunityNeighbourhoods layer (11 enriched polygons)
+# is the socio-economic rollup, not the planning fabric. Names are ALL-CAPS
+# like the address data — cosmetic only.
+neighbourhoods_url = "https://maps.cambridge.ca/arcgispub03/rest/services/PlanningNeighbourhoods/FeatureServer/0/query?where=1%3D1&outFields=NHOOD_NAME,NHOOD_ID&outSR=4326&f=geojson"
+# NHOOD_NAME is not in any sniff list — the declared-field contract again.
+neighbourhood_name_field = "NHOOD_NAME"
+
+[source]
+sqlite_path = "C:/Users/kk/Code/ontario-address-changes/data/cambridge/cambridge.db"
+
+# Per-city projection recipe (multi-city Tier 2), measured against snapshot 26
+# (2026-08-07, 54,025 active rows). NO stable source key — ADDRESS_POINT_ID
+# is not unique, so identities are synthetic (number, street, unit) + 5dp
+# geometry and missing_sample rides the crc32 path (the Quinte West shape).
+[source_fields]
+# STREET_NAME is typed on 96.7% of rows ("RICHARDS AVE") — ALL-CAPS with the
+# standard abbreviated shorts (AVE/ST/DR, all already in the expansion
+# tables). TODO §9 (title-casing) gates upload as usual. 140 rows lack a
+# street; 5 lack a number.
+street_from = "street"
+# NOT "full": ADDRESS_LABEL appends the unit ("50 MULLIN CRES 9" — the
+# Guelph trap, suffix form; 11,548 rows differ from number+street).
+full_from = "number+street"
+# No municipality field. Cambridge amalgamated Galt/Preston/Hespeler in 1973
+# but the source does not carry the former municipality on rows; the
+# neighbourhood fabric above encodes locality instead.
+# WARD_ID: integer 1-8 on 53,847 rows (99.7%; 178 empty).
+ward = "props:WARD_ID"
+# UNIT_NUMBER on 11,893 rows (22.0%).
+unit = "unit"
+# STATUS is 'ACTIVE' on all 54,025 snapshot-26 rows — declared protectively
+# (the Guelph pattern): future Proposed/Pending rows get filtered, not
+# imported.
+status = "props:STATUS"
+
+# 09-units.md option 2, same as every unit-bearing city so far. Measured
+# 2026-08-15 on snapshot 26: 54,025 rows -> 42,132 civic groups on
+# (number, street); 1,363 stacked, 351 without a unit-less representative,
+# 84 with >1 unit-less rows.
+[units]
+policy = "collapse-to-civic"
+
+[status]
+active_values = ["ACTIVE"]
+
+[run_defaults]
+# Dense Galt cell (1,904 rows) for first test runs.
+bbox = [43.344, -80.304, 43.356, -80.292]
+overpass_url = "https://overpass-api.de/api/interpreter"
+
+[osm]
+source = "local"
+# Same Ontario PBF as every city in the portfolio.
+pbf_url = "https://download.geofabrik.de/north-america/canada/ontario-latest.osm.pbf"
+# Source-data extent (54,025 rows measured 2026-08-15: lat 43.33257..43.47116,
+# lon -80.40854..-80.25149) plus a small margin. Cambridge sits inside
+# Waterloo Region beside Kitchener; the rectangle's west edge approaches
+# Kitchener's built-up area — see 10-boundary-clipping.md.
+city_bbox = [43.32, -80.43, 43.48, -80.23]
+extract_dir = "data/osm"
+
+[conflation]
+match_radius_m = 100
+match_near_m = 15
+
+[checks]
+match_far = true
+# suffix_range deliberately absent: no lo_num/hi_num in this source.
+city_duplicate = true
+missing_sample = true
+nearby_street_mismatch = true
+
+[check_params.city_duplicate]
+radius_m = 3.0
+
+[check_params.missing_sample]
+every_nth = 50
+
+[check_params.nearby_street_mismatch]
+radius_m = 20.0
+
+[check_params.match_number_drift]
+slack_m = 2.0
+
+[upload]
+changesets_per_minute = 1
+changeset_comment_template = "{city} Open Data address import, run={run_name}"
+
+[export]
+attribution = "City of Cambridge Open Data"
+# Entry-state probe of 2026-08-15 pending at write time (see README). No
+# proposal exists; write and publish one per the OSM Import Guidelines
+# BEFORE any production upload, and mind TODO §9 (title-casing) first.
+import_plan = ""
