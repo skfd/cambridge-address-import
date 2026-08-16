@@ -23,6 +23,17 @@ tracker (`data/cambridge/cambridge.db`, 54,025 active rows / 42,132 civic
 addresses at snapshot 26, 2026-08-07). The 2026-08-12 portfolio survey put
 the gap in the high-80s percent.
 
+Entry state probed 2026-08-15 (`onboarding/entry-state-2026-08-15.json`):
+**greenfield, StatCan-seeded** — Mojgan Jadidi's 2016 "address ranges for
+GTHA from StatCan road network data" campaign holds 796 of 1,361 sampled
+elements (the same campaign that seeded Hamilton and Mississauga; the
+engine's TODO §3 adjudication policy now covers all three), over a
+NRCan-CanVec layer and Matthew Darwin's 2018 rename retag. `raptureboi` maps
+sidewalks (2024), not addresses. No import tags, no import wiki content, no
+recent import activity. An import target; contacts: Matthew Darwin,
+raptureboi (locally active). Note the dominant addr combo carries NO
+addr:city (880 of 1,361) — the StatCan nodes are bare housenumber+street.
+
 Traits (details in config comments): no stable source key (synthetic
 identities, the Quinte West shape); ALL-CAPS abbreviated streets (upload
 gated on the title-casing TODO); `ADDRESS_LABEL` appends the unit (the
