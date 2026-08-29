@@ -20,7 +20,7 @@ sqlite_path = "C:/Users/kk/Code/ontario-address-changes/data/cambridge/cambridge
 [source_fields]
 # STREET_NAME is typed on 96.7% of rows ("RICHARDS AVE") — ALL-CAPS with the
 # standard abbreviated shorts (AVE/ST/DR, all already in the expansion
-# tables). TODO §9 (title-casing) gates upload as usual. 140 rows lack a
+# tables), title-cased on export since 2026-08-29 ([export] street_case). 140 rows lack a
 # street; 5 lack a number.
 street_from = "street"
 # NOT "full": ADDRESS_LABEL appends the unit ("50 MULLIN CRES 9" — the
@@ -95,5 +95,10 @@ changeset_comment_template = "{city} Open Data address import, run={run_name}"
 attribution = "City of Cambridge Open Data"
 # Entry-state probe of 2026-08-15 pending at write time (see README). No
 # proposal exists; write and publish one per the OSM Import Guidelines
-# BEFORE any production upload, and mind TODO §9 (title-casing) first.
+# BEFORE any production upload.
 import_plan = ""
+
+# The source shouts. Title-cased on the export path only, so street_raw keeps
+# the source spelling and conflation is untouched. Swept over all 1,148 distinct
+# street names 2026-08-29: no all-caps word survives the step.
+street_case = "title"

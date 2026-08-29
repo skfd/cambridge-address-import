@@ -35,8 +35,8 @@ raptureboi (locally active). Note the dominant addr combo carries NO
 addr:city (880 of 1,361) — the StatCan nodes are bare housenumber+street.
 
 Traits (details in config comments): no stable source key (synthetic
-identities, the Quinte West shape); ALL-CAPS abbreviated streets (upload
-gated on the title-casing TODO); `ADDRESS_LABEL` appends the unit (the
+identities, the Quinte West shape); ALL-CAPS abbreviated streets (title-cased on
+export since 2026-08-29, `[export] street_case`); `ADDRESS_LABEL` appends the unit (the
 Guelph trap, suffix form); 22% units collapsed to civic; ward 1–8 declared;
 STATUS declared protectively (all ACTIVE today). Tiles subdivide the city's
 38 "Planning Neighbourhoods" (99.93% point coverage, all names unique) via
