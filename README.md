@@ -47,7 +47,7 @@ field — the neighbourhood fabric encodes locality instead.
 Before any production upload: wiki proposal page, forum announcement, and
 feedback window per the
 [OSM Import Guidelines](https://wiki.openstreetmap.org/wiki/Import/Guidelines)
-— Toronto's [`IMPORT_PROPOSAL.mediawiki`](https://github.com/skfd/toronto-2-address-import/blob/main/IMPORT_PROPOSAL.mediawiki)
+— Toronto's [`IMPORT_PROPOSAL.mediawiki`](https://github.com/toronto-maps/toronto-2-address-import/blob/main/IMPORT_PROPOSAL.mediawiki)
 is the template.
 
 MIT licensed.
